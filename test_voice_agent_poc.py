@@ -13,7 +13,7 @@ class VoiceAgentPocTests(unittest.TestCase):
         self.assertGreater(len(result.source_chunks), 1)
         self.assertTrue(result.partial_transcripts)
         self.assertEqual(result.final_transcript, "Saya ingin daftar di rumah sakit")
-        self.assertIn("rumah sakit", result.llm_input)
+        self.assertIn("hospital", result.llm_input)
         self.assertTrue(result.llm_output)
         self.assertTrue(result.final_indonesian)
         self.assertTrue(result.tts_frames)
