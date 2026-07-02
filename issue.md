@@ -331,3 +331,10 @@ Rencana ini dipakai sebagai urutan kerja untuk implementasi berikutnya agar seti
 
 - Jika model target terlalu berat untuk mesin lokal, catat gap-nya di issue turunan.
 - Simpan semua keputusan penting di issue agar review berikutnya tidak mengulang analisis yang sama.
+
+### Step 8: Pisahkan Laravel UI dan voice microservice
+
+- Jadikan Laravel sebagai UI web, CRUD, dan auth sederhana.
+- Pindahkan logic voice agent ke microservice terpisah agar latency dan dependency web tidak bercampur dengan audio realtime.
+- Gunakan HTTP API untuk komunikasi dari Laravel ke voice service.
+- Pertahankan kontrak API yang kecil: jalankan demo, ambil status pipeline, dan tampilkan hasil di dashboard.
