@@ -2,6 +2,12 @@
 
 ## Quick start
 
+Run the web dashboard:
+
+```bash
+uvicorn web_app:app --reload
+```
+
 Run the POC pipeline with text input:
 
 ```bash
