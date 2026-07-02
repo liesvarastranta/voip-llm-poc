@@ -8,6 +8,12 @@ Run the POC pipeline with text input:
 python voice_agent_poc.py "Saya ingin daftar di rumah sakit"
 ```
 
+Run the microphone-first demo:
+
+```bash
+python voice_agent_poc.py --mic
+```
+
 Run the built-in checks:
 
 ```bash

@@ -286,3 +286,48 @@ Junior engineer harus menghasilkan:
 - Jangan menulis dependency ke layanan cloud.
 - Jika sebuah model terlalu berat untuk hardware saat ini, dokumentasikan gap-nya dan siapkan fallback yang tetap on-prem.
 - Jika ada keputusan arsitektur yang belum pasti, buat catatan eksplisit di issue turunan agar review lebih mudah.
+
+## Implementation Plan Untuk Iterasi Berikutnya
+
+Rencana ini dipakai sebagai urutan kerja untuk implementasi berikutnya agar setiap perubahan tetap kecil, mudah direview, dan tetap sesuai scope POC.
+
+### Step 1: Kunci baseline POC
+
+- Pertahankan pipeline minimal yang sudah ada sebagai baseline runnable.
+- Pastikan input sederhana bisa masuk ke pipeline tanpa bergantung pada VoIP.
+- Jadikan alur text-in -> chunking -> ASR mock -> translation mock -> LLM mock -> TTS mock sebagai patokan awal.
+
+### Step 2: Tambah input mikrofon lokal
+
+- Buat jalur input dari mikrofon sebagai sumber audio POC.
+- Chunk audio masuk secara kecil dan berulang.
+- Simpan jalur ini tetap lokal dan tidak bergantung pada layanan eksternal.
+
+### Step 3: Ganti mock dengan adapter nyata secara bertahap
+
+- Buat interface tipis untuk ASR, translation, LLM, dan TTS.
+- Ganti mock satu per satu, dimulai dari ASR karena itu jalur utama POC.
+- Pertahankan fallback mock agar pipeline tetap bisa dijalankan saat model nyata belum siap.
+
+### Step 4: Validasi streaming dan turn-taking
+
+- Pastikan partial transcript keluar sebelum utterance selesai penuh.
+- Tambahkan endpointing atau VAD hanya jika memang diperlukan untuk mengurangi latensi.
+- Jaga agar respons TTS bisa dimulai sesegera mungkin setelah teks cukup stabil.
+
+### Step 5: Siapkan integrasi VoIP terakhir
+
+- Setelah alur mikrofon stabil, sambungkan ke transport VoIP.
+- Jangan ubah logika inti pipeline; hanya ganti source audio dan sink audio.
+- Simpan greeting statis sebagai aset lokal.
+
+### Step 6: Tambahkan validasi minimal di setiap perubahan
+
+- Setiap PR harus punya satu check runnable yang membuktikan alur yang disentuh masih bekerja.
+- Jika perubahan hanya menambah satu bagian kecil, cukup satu test sederhana atau demo script.
+- Hindari menambah framework testing atau struktur baru bila belum diperlukan.
+
+### Step 7: Dokumentasikan gap hardware dan model
+
+- Jika model target terlalu berat untuk mesin lokal, catat gap-nya di issue turunan.
+- Simpan semua keputusan penting di issue agar review berikutnya tidak mengulang analisis yang sama.
